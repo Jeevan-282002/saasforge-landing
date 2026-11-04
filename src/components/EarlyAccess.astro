@@ -1,0 +1,101 @@
+---
+import { siteConfig } from '../config/siteConfig';
+---
+
+<section id="early-access" class="py-20 md:py-32 bg-gradient-to-b from-[#070b14] via-surface-base to-[#060911] relative overflow-hidden border-t border-surface-border">
+  
+  <!-- Subtle ambient glow background -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-500/10 blur-[130px] rounded-full pointer-events-none"></div>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+    
+    <!-- Section Badge -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-800/40 text-emerald-400 text-xs font-mono font-medium mb-6">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      Early Developer Collaboration
+    </div>
+
+    <!-- Main Headline -->
+    <h2 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+      Be Among the First to Build With It.
+    </h2>
+
+    <!-- Description -->
+    <p class="mt-6 text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+      We are connecting with developers, freelancers, startups and engineering teams interested in building SaaS applications using a reusable Django foundation.
+    </p>
+
+    <!-- Value Propositions for Early Access -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-10 max-w-3xl mx-auto text-left font-mono text-xs">
+      <div class="p-4 rounded-xl bg-surface-card border border-surface-border flex items-start gap-3">
+        <span class="text-emerald-400 font-bold text-base mt-0.5">01</span>
+        <div>
+          <strong class="text-white block font-sans text-sm font-semibold mb-0.5">Direct Collaboration</strong>
+          <span class="text-slate-400">Direct feedback loop with the maintainer on architectural requirements.</span>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl bg-surface-card border border-surface-border flex items-start gap-3">
+        <span class="text-teal-400 font-bold text-base mt-0.5">02</span>
+        <div>
+          <strong class="text-white block font-sans text-sm font-semibold mb-0.5">Flexible Licensing</strong>
+          <span class="text-slate-400">Priority discussions for commercial licenses, agencies, and custom deployments.</span>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl bg-surface-card border border-surface-border flex items-start gap-3">
+        <span class="text-indigo-400 font-bold text-base mt-0.5">03</span>
+        <div>
+          <strong class="text-white block font-sans text-sm font-semibold mb-0.5">Production Guidance</strong>
+          <span class="text-slate-400">Share your roadmap and get recommendations on domain model decoupling.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enquiry Options CTA Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <!-- Early Access Button -->
+      <button
+        type="button"
+        data-open-enquiry
+        data-enquiry-type="early-access"
+        data-track="early_access_primary_btn"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl font-semibold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all text-base active:scale-95"
+      >
+        <span>Request Early Access</span>
+        <svg class="w-4 h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </button>
+
+      <!-- Commercial Licensing Button -->
+      <button
+        type="button"
+        data-open-enquiry
+        data-enquiry-type="commercial-licensing"
+        data-track="commercial_licensing_btn"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-slate-200 hover:text-white bg-surface-card hover:bg-surface-cardHover border border-surface-border hover:border-slate-600 transition-all text-base"
+      >
+        <span>Commercial Licensing Enquiry</span>
+      </button>
+
+      <!-- General Question Button -->
+      <button
+        type="button"
+        data-open-enquiry
+        data-enquiry-type="general-question"
+        data-track="general_question_btn"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-4 rounded-xl font-medium text-slate-400 hover:text-slate-200 hover:bg-surface-raised transition-all text-sm"
+      >
+        <span>General Contact</span>
+      </button>
+    </div>
+
+    <!-- Assurance Notice -->
+    <p class="mt-6 text-xs text-slate-500">
+      Early conversations are open to builders providing technical feedback. No spam. No automated marketing sequences.
+    </p>
+
+  </div>
+</section>
+

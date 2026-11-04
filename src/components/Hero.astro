@@ -1,0 +1,225 @@
+---
+import { siteConfig } from '../config/siteConfig';
+---
+
+<section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+  <!-- Subtle ambient glow background -->
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] md:w-[900px] md:h-[500px] bg-gradient-to-tr from-emerald-500/15 via-teal-500/10 to-indigo-600/15 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+  <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    
+    <!-- Verified Status Badge -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-raised/90 border border-surface-border text-xs font-mono text-slate-300 mb-8 backdrop-blur-sm shadow-inner hover:border-emerald-500/40 transition-colors">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-emerald-400 font-semibold">152 Tests Verified</span>
+      <span class="text-slate-600">|</span>
+      <span>Django 5.2 + PostgreSQL 17 + Celery</span>
+    </div>
+
+    <!-- Main Headline -->
+    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] max-w-5xl mx-auto">
+      Build Your SaaS Product. <br class="hidden sm:inline" />
+      <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+        Not Your SaaS Infrastructure.
+      </span>
+    </h1>
+
+    <!-- Description -->
+    <p class="mt-6 text-lg sm:text-xl text-slate-300/90 max-w-3xl mx-auto font-normal leading-relaxed">
+      Start with a reusable Django SaaS foundation that handles the architectural groundwork — multi-tenancy, RBAC, organization management, audit logging and subscription infrastructure.
+    </p>
+
+    <!-- CTAs -->
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+      <!-- Primary CTA: GitHub -->
+      <a
+        href={siteConfig.links.githubRepo}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="hero_github_cta"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 transition-all shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 active:scale-95 text-base"
+      >
+        <svg class="w-5 h-5 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+        </svg>
+        <span>Explore on GitHub</span>
+        <svg class="w-4 h-4 ml-0.5 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+
+      <!-- Secondary CTA: Early Access -->
+      <button
+        type="button"
+        data-open-enquiry
+        data-enquiry-type="early-access"
+        data-track="hero_early_access_cta"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-slate-200 hover:text-white bg-surface-card hover:bg-surface-cardHover border border-surface-border hover:border-slate-600 transition-all text-base shadow-sm"
+      >
+        <span>Request Early Access</span>
+        <span class="inline-block px-2 py-0.5 text-xs font-mono text-emerald-400 bg-emerald-950/80 rounded border border-emerald-800/60">
+          Enquiries Open
+        </span>
+      </button>
+    </div>
+
+    <!-- Hero Architecture / Product Visual Display -->
+    <div class="mt-16 sm:mt-20 max-w-5xl mx-auto">
+      <div class="relative rounded-2xl bg-gradient-to-b from-surface-raised via-surface-card to-surface-base p-1 sm:p-2 border border-surface-border shadow-2xl">
+        <!-- Mac-style window controls header -->
+        <div class="flex items-center justify-between px-4 py-3 bg-[#0a0f1d] rounded-t-xl border-b border-surface-border text-xs text-slate-400 font-mono">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+            <span class="ml-2 text-slate-500">django-saas-foundation // multi-tenant orchestration topology</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-2 text-[11px] text-emerald-400/90 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/30">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            Dynamic Routing Active
+          </div>
+        </div>
+
+        <!-- Interactive Architecture Blueprint -->
+        <div class="p-4 sm:p-8 bg-[#070b14] rounded-b-xl">
+          
+          <!-- Top Row: Ingress & Resolution -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-left">
+            
+            <!-- Ingress Card -->
+            <div class="p-4 rounded-xl bg-surface-raised/80 border border-surface-border">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-mono uppercase text-emerald-400 font-semibold tracking-wider">Tenant Ingress</span>
+                <span class="text-[10px] text-slate-500 font-mono">Layer 1</span>
+              </div>
+              <div class="space-y-1.5 text-xs font-mono text-slate-300">
+                <div class="px-2 py-1 rounded bg-black/40 border border-white/5 flex items-center justify-between">
+                  <span class="text-emerald-300">acme.saas.app</span>
+                  <span class="text-[10px] text-slate-500">Subdomain</span>
+                </div>
+                <div class="px-2 py-1 rounded bg-black/40 border border-white/5 flex items-center justify-between">
+                  <span class="text-teal-300">X-Organization: beta</span>
+                  <span class="text-[10px] text-slate-500">API Header</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Zero-Trust Auth & RBAC Card -->
+            <div class="p-4 rounded-xl bg-surface-raised/80 border border-surface-border">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-mono uppercase text-indigo-400 font-semibold tracking-wider">4-Tier RBAC & Auth</span>
+                <span class="text-[10px] text-slate-500 font-mono">Layer 2</span>
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs font-mono">
+                <span class="px-2 py-1 rounded bg-indigo-950/40 border border-indigo-800/40 text-indigo-300 text-center">Owner</span>
+                <span class="px-2 py-1 rounded bg-indigo-950/40 border border-indigo-800/40 text-indigo-300 text-center">Admin</span>
+                <span class="px-2 py-1 rounded bg-slate-800/50 border border-slate-700/50 text-slate-300 text-center">Member</span>
+                <span class="px-2 py-1 rounded bg-slate-800/50 border border-slate-700/50 text-slate-400 text-center">Viewer</span>
+              </div>
+            </div>
+
+            <!-- Quota & Subscription Card -->
+            <div class="p-4 rounded-xl bg-surface-raised/80 border border-surface-border">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-mono uppercase text-amber-400 font-semibold tracking-wider">Subscription Quotas</span>
+                <span class="text-[10px] text-slate-500 font-mono">Layer 3</span>
+              </div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between text-slate-300 font-mono">
+                  <span>Pro Plan: Storage / Users</span>
+                  <span class="text-emerald-400 font-semibold">Enforced</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full w-[65%] rounded-full"></div>
+                </div>
+                <div class="text-[10px] text-slate-400 font-mono flex justify-between">
+                  <span>QuotaRegistry: 65/100 used</span>
+                  <span>Webhook Ready</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Row: Physical Database Routing Split -->
+          <div class="border-t border-surface-border/80 pt-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono uppercase text-slate-400 tracking-wider flex items-center gap-2">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                </svg>
+                PostgreSQL Database-Per-Tenant Physical Isolation
+              </span>
+              <span class="text-[11px] font-mono text-slate-500 hidden sm:inline">TenantDatabaseRouter ContextVar</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-left font-mono text-xs">
+              
+              <!-- Central Platform DB -->
+              <div class="p-3.5 rounded-lg bg-surface-card border border-indigo-500/30">
+                <div class="flex items-center justify-between text-indigo-400 font-semibold mb-1">
+                  <span>default (Central DB)</span>
+                  <span class="text-[10px] bg-indigo-950 px-1.5 py-0.5 rounded text-indigo-300">Shared</span>
+                </div>
+                <ul class="text-[11px] text-slate-400 space-y-1 mt-2">
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-indigo-400"></span> Users & SimpleJWT Blacklist
+                  </li>
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-indigo-400"></span> Tenants & Memberships
+                  </li>
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-indigo-400"></span> Subscriptions & Audit Logs
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Tenant DB A -->
+              <div class="p-3.5 rounded-lg bg-surface-card border border-emerald-500/30">
+                <div class="flex items-center justify-between text-emerald-400 font-semibold mb-1">
+                  <span>tenant_acmecorp</span>
+                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded text-emerald-300">Isolated</span>
+                </div>
+                <ul class="text-[11px] text-slate-400 space-y-1 mt-2">
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-emerald-400"></span> Customer A Projects & Data
+                  </li>
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-emerald-400"></span> Dedicated PostgreSQL Schema
+                  </li>
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-emerald-400"></span> 0% Cross-Tenant Contamination
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Tenant DB B -->
+              <div class="p-3.5 rounded-lg bg-surface-card border border-teal-500/30">
+                <div class="flex items-center justify-between text-teal-400 font-semibold mb-1">
+                  <span>tenant_betacorp</span>
+                  <span class="text-[10px] bg-teal-950 px-1.5 py-0.5 rounded text-teal-300">Isolated</span>
+                </div>
+                <ul class="text-[11px] text-slate-400 space-y-1 mt-2">
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-teal-400"></span> Customer B Projects & Data
+                  </li>
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-teal-400"></span> Independent Backups/Restores
+                  </li>
+                  <li class="flex items-center gap-1.5">
+                    <span class="w-1 h-1 rounded-full bg-teal-400"></span> Dynamic DB Alias Provisioning
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+

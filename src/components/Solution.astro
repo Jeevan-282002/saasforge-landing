@@ -1,0 +1,158 @@
+---
+---
+
+<section class="py-20 md:py-28 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium mb-4">
+        <span>The Foundation Advantage</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Your SaaS Infrastructure, Already Structured.
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-slate-300">
+        Django SaaS Foundation handles the repetitive multi-tenant scaffolding so you can write the code that differentiates your product and drives revenue.
+      </p>
+    </div>
+
+    <!-- Two-Column Side-by-Side Comparison: Handled by Foundation vs Built by You -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+      
+      <!-- Left Column: What the Foundation Handles -->
+      <div class="rounded-2xl bg-surface-card/80 border border-emerald-500/30 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-emerald-400 text-xs font-mono font-semibold">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              READY OUT OF THE BOX
+            </span>
+            <span class="text-xs font-mono text-slate-500">apps.common / apps.tenants / apps.subscriptions</span>
+          </div>
+
+          <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">
+            Core Foundation Scaffolding
+          </h3>
+          <p class="text-sm text-slate-400 mb-6">
+            Proven architectural patterns implemented cleanly in standard Django and PostgreSQL.
+          </p>
+
+          <ul class="space-y-3.5 text-sm text-slate-300">
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+              <div>
+                <strong class="text-white block">PostgreSQL Database-Per-Tenant Isolation</strong>
+                <span class="text-xs text-slate-400">Physical separation eliminates cross-tenant data leakage risks.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+              <div>
+                <strong class="text-white block">Stateless SimpleJWT with Rotation & Blacklist</strong>
+                <span class="text-xs text-slate-400">Secure token authentication with refresh token revocation on logout.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+              <div>
+                <strong class="text-white block">4-Tier Strict Role Hierarchy (RBAC)</strong>
+                <span class="text-xs text-slate-400">Owner, Admin, Member, and Viewer with non-escalatable permissions.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+              <div>
+                <strong class="text-white block">Universal Quota Engine (QuotaRegistry)</strong>
+                <span class="text-xs text-slate-400">Decoupled counter registry that enforces resource limits per tier.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+              <div>
+                <strong class="text-white block">Transactional Outbox & Tenant-Aware Celery</strong>
+                <span class="text-xs text-slate-400">Atomic message dispatch with automated tenant context injection.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-surface-border text-xs font-mono text-emerald-400/90 flex items-center gap-2">
+          <span>0 demo tables required in fresh production migrations</span>
+        </div>
+      </div>
+
+      <!-- Right Column: What Developers Build -->
+      <div class="rounded-2xl bg-surface-card/80 border border-indigo-500/30 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-indigo-950/60 border border-indigo-800/40 text-indigo-400 text-xs font-mono font-semibold">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              WHERE YOU SPEND YOUR TIME
+            </span>
+            <span class="text-xs font-mono text-slate-500">apps.&lt;your_product&gt;</span>
+          </div>
+
+          <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">
+            Your Core Product Differentiation
+          </h3>
+          <p class="text-sm text-slate-400 mb-6">
+            Plug your consumer models directly into the tenant routing pipeline with zero friction.
+          </p>
+
+          <ul class="space-y-3.5 text-sm text-slate-300">
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">→</span>
+              <div>
+                <strong class="text-white block">Domain-Specific Data Models & APIs</strong>
+                <span class="text-xs text-slate-400">Create your invoices, documents, AI agents, or analytics tables.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">→</span>
+              <div>
+                <strong class="text-white block">Custom Frontends & Mobile Applications</strong>
+                <span class="text-xs text-slate-400">Connect Next.js, React, Astro, or Vue via clean REST endpoints and OpenAPI.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">→</span>
+              <div>
+                <strong class="text-white block">Customer Feature Requests & Feedback</strong>
+                <span class="text-xs text-slate-400">Ship user-requested features in sprints instead of debugging DB connections.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">→</span>
+              <div>
+                <strong class="text-white block">Commercial Pricing & Go-To-Market</strong>
+                <span class="text-xs text-slate-400">Map your custom features to Free, Pro, and Business subscription tiers.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">→</span>
+              <div>
+                <strong class="text-white block">Fast Iteration & Time-to-Market</strong>
+                <span class="text-xs text-slate-400">Launch beta tenants within days of cloning the repository.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-surface-border text-xs font-mono text-indigo-400/90 flex items-center gap-2">
+          <span>Decoupled reference apps (TaskFlow & CRM) demonstrate clean isolation</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+

@@ -1,0 +1,107 @@
+---
+const painPoints = [
+  {
+    title: "Multi-Tenancy Pitfalls",
+    timeCost: "3–4 Weeks",
+    description: "Hand-rolling tenant routing with shared tables often leads to accidental data leakage between customers, complicated ORM filter hacks, or performance bottlenecks under scale.",
+    badge: "Security Risk"
+  },
+  {
+    title: "Organization & Membership Logic",
+    timeCost: "2 Weeks",
+    description: "Designing schemas for multi-organization switching, organization creation, ownership transfer, and member invitations with cryptographic expiration tokens.",
+    badge: "Repetitive Code"
+  },
+  {
+    title: "4-Tier RBAC & Authorization",
+    timeCost: "2 Weeks",
+    description: "Enforcing fine-grained permissions (Owner, Admin, Member, Viewer) across endpoints without hardcoded if-statements scattered through every view and API serializer.",
+    badge: "Architecture Debt"
+  },
+  {
+    title: "Audit Logging & Security Controls",
+    timeCost: "1–2 Weeks",
+    description: "Capturing immutable compliance records, sanitizing sensitive passwords/tokens from payloads, and tracking request correlation IDs across distributed services.",
+    badge: "Compliance Burden"
+  },
+  {
+    title: "Subscription Plans & Quota Limits",
+    timeCost: "2–3 Weeks",
+    description: "Tying pricing tiers (Free, Pro, Business) to hard resource usage limits without tightly coupling billing logic directly into core business models.",
+    badge: "High Complexity"
+  },
+  {
+    title: "Tenant-Aware Celery & Background Jobs",
+    timeCost: "2 Weeks",
+    description: "Dispatching asynchronous workers that must automatically know which tenant database to connect to, while avoiding dual-write race conditions via transactional outboxes.",
+    badge: "Distributed State"
+  }
+];
+---
+
+<section class="py-20 bg-surface-base/60 border-y border-surface-border relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-mono font-medium mb-4">
+        <span>The Repetitive SaaS Plumbing Problem</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Stop Rebuilding the Same SaaS Infrastructure.
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-slate-400">
+        Every new B2B SaaS requires 8–12 weeks of identical architectural scaffolding before a single line of customer-facing business logic is ever written.
+      </p>
+    </div>
+
+    <!-- Pain Point Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {painPoints.map((item) => (
+        <div class="glass-card glass-card-hover p-6 rounded-2xl border border-surface-border bg-surface-card/60 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-rose-950/60 text-rose-300 border border-rose-800/40">
+                {item.badge}
+              </span>
+              <span class="text-xs font-mono text-slate-500 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Avg: {item.timeCost}
+              </span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">{item.title}</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">{item.description}</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-surface-border/60 flex items-center justify-between text-xs font-mono text-slate-500">
+            <span>Built from scratch?</span>
+            <span class="text-rose-400 font-semibold">Avoidable overhead</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Summary Callout -->
+    <div class="mt-12 p-6 rounded-2xl bg-gradient-to-r from-surface-raised via-surface-card to-surface-raised border border-surface-border text-center max-w-4xl mx-auto">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-left">
+          <h4 class="text-base font-bold text-white">Estimated time spent rebuilding boilerplate:</h4>
+          <p class="text-xs text-slate-400 mt-0.5">Authentication, database routing, quota counters, membership permissions, invitations.</p>
+        </div>
+        <div class="flex items-center gap-4 shrink-0 font-mono">
+          <div class="px-4 py-2 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-300 text-center">
+            <span class="block text-2xl font-bold">250+</span>
+            <span class="text-[10px] text-slate-400 uppercase">Hours Lost</span>
+          </div>
+          <span class="text-slate-600 text-xl font-bold">→</span>
+          <div class="px-4 py-2 rounded-xl bg-emerald-950/40 border border-emerald-900/50 text-emerald-300 text-center">
+            <span class="block text-2xl font-bold">Day 1</span>
+            <span class="text-[10px] text-slate-400 uppercase">With Foundation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+

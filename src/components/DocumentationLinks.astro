@@ -1,0 +1,145 @@
+---
+import { siteConfig } from '../config/siteConfig';
+
+const docs = [
+  {
+    title: "System Architecture & System Design",
+    path: "docs/architecture.md",
+    url: siteConfig.links.docs.architecture,
+    desc: "Complete architectural breakdown: middleware request pipeline, database routing mechanics, and outbox event bus.",
+    tag: "Core Architecture"
+  },
+  {
+    title: "Multi-Tenancy Guide",
+    path: "docs/multi-tenancy.md",
+    url: siteConfig.links.docs.multiTenancy,
+    desc: "Subdomain and header resolution, tenant provisioning flows, dynamic alias registration, and advisory locks.",
+    tag: "Isolation"
+  },
+  {
+    title: "Subscriptions & Quota Engine",
+    path: "docs/subscriptions-quotas.md",
+    url: siteConfig.links.docs.subscriptionsQuotas,
+    desc: "Universal QuotaRegistry pattern, tier limits (Free, Pro, Business), and payment webhook integration specs.",
+    tag: "Billing"
+  },
+  {
+    title: "Developer Guide & Local Setup",
+    path: "docs/developer-guide.md",
+    url: siteConfig.links.docs.developerGuide,
+    desc: "Step-by-step developer environment setup, testing commands, Docker Compose orchestration, and troubleshooting.",
+    tag: "Workflow"
+  },
+  {
+    title: "Verification & Test Report",
+    path: "TEST_REPORT.md",
+    url: siteConfig.links.docs.testReport,
+    desc: "Comprehensive results across 152 automated tests, isolation checks, concurrency benchmarks, and disaster recovery runs.",
+    tag: "Verification"
+  },
+  {
+    title: "Security Audit & Threat Matrix",
+    path: "docs/SECURITY_AUDIT.md",
+    url: siteConfig.links.docs.securityAudit,
+    desc: "Threat assessment covering SQL injection resistance, JWT invalidation, privilege escalation checks, and CSP policies.",
+    tag: "Security"
+  },
+  {
+    title: "Production Readiness Review",
+    path: "docs/PRODUCTION_READINESS.md",
+    url: siteConfig.links.docs.productionReadiness,
+    desc: "Operational guidelines for deployment: connection pooling, SSL termination, backup automation, and monitoring.",
+    tag: "Operations"
+  },
+  {
+    title: "Consumer Decoupling Guide",
+    path: "docs/how_to_delete_or_replace_taskflow.md",
+    url: siteConfig.links.docs.taskflowGuide,
+    desc: "Instructions on cleanly decoupling reference applications (TaskFlow & CRM) to replace them with your own domain models.",
+    tag: "Extensibility"
+  }
+];
+---
+
+<section id="documentation" class="py-20 md:py-28 bg-surface-base relative border-t border-surface-border">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-mono font-medium mb-4">
+        <span>Transparent Technical Documentation</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Everything Developers Need to Get Started.
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-slate-300">
+        In-depth guides, architectural diagrams, security reviews, and verification reports maintained directly in the source repository.
+      </p>
+    </div>
+
+    <!-- Documentation Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {docs.map((doc) => (
+        <a
+          href={doc.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-track={`doc_click_${doc.path.replace(/[^a-zA-Z0-9]/g, '_')}`}
+          class="glass-card glass-card-hover p-5 rounded-2xl border border-surface-border bg-surface-card flex flex-col justify-between group"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-teal-400 px-2 py-0.5 rounded bg-teal-950/60 border border-teal-800/40">
+                {doc.tag}
+              </span>
+              <svg class="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </div>
+
+            <h3 class="text-base font-bold text-white mb-2 group-hover:text-teal-300 transition-colors">
+              {doc.title}
+            </h3>
+
+            <p class="text-xs text-slate-400 leading-relaxed">
+              {doc.desc}
+            </p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-surface-border/60 flex items-center justify-between text-[11px] font-mono text-slate-500">
+            <span class="truncate max-w-[170px]">{doc.path}</span>
+            <span class="text-emerald-400 font-medium group-hover:underline">Read →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Repository Banner Link -->
+    <div class="mt-12 p-6 rounded-2xl bg-gradient-to-r from-surface-raised via-surface-card to-surface-raised border border-surface-border flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-surface-base border border-surface-border flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+        </div>
+        <div>
+          <h4 class="text-sm font-bold text-white">Full Source Repository & README</h4>
+          <p class="text-xs text-slate-400">Inspect the complete codebase, commit history, and technical architecture.</p>
+        </div>
+      </div>
+      <a
+        href={siteConfig.links.githubRepo}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="doc_banner_github_click"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-xs text-slate-200 bg-surface-card hover:bg-surface-cardHover border border-surface-border hover:border-slate-600 transition-all shrink-0"
+      >
+        <span>Open Repository on GitHub</span>
+        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+

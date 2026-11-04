@@ -1,0 +1,99 @@
+---
+const faqs = [
+  {
+    q: "1. What is Django SaaS Foundation?",
+    a: "Django SaaS Foundation is a reusable, production-tested architectural foundation for building multi-tenant SaaS applications in Python and Django 5.2+. It provides the foundational plumbing—including database-per-tenant isolation, 4-tier RBAC, organization management, audit logging, subscription tiers, and Celery background workers—so you can focus on building your core customer-facing product instead of repetitive boilerplate."
+  },
+  {
+    q: "2. Is this just another Django starter template?",
+    a: "No. Most Django starter templates only set up Tailwind, basic Django authentication, and a couple of HTML templates with single-tenant SQLite. Django SaaS Foundation is a complete B2B architectural core featuring physical database-per-tenant PostgreSQL routing, an extensible QuotaRegistry, SimpleJWT token rotation, row-locked transactional outbox event dispatching, and automated test suites covering cross-tenant data isolation."
+  },
+  {
+    q: "3. Who should use this foundation?",
+    a: "It is specifically designed for independent Python/Django developers, freelancers, startup founders, software development agencies, and engineering teams who want to build and launch commercial multi-tenant SaaS products without spending 2–3 months rebuilding standard infrastructure."
+  },
+  {
+    q: "4. Does it support multiple organizations?",
+    a: "Yes. Multi-tenancy and organization management are first-class primitives. Users can belong to multiple organizations with distinct roles (Owner, Admin, Member, Viewer) in each organization. Tenants can be resolved automatically via subdomains (e.g., acme.yourdomain.com) or via the X-Organization request header for headless APIs."
+  },
+  {
+    q: "5. How does tenant isolation work?",
+    a: "The foundation implements physical database-per-tenant isolation using PostgreSQL. Unlike row-level filtering where a developer forgetting a `.filter(org_id=...)` clause causes critical data leakage, queries for tenant applications (such as projects, invoices, or CRM contacts) are routed to a dedicated PostgreSQL database alias. Objects in Tenant A physically cannot be accessed from Tenant B's database."
+  },
+  {
+    q: "6. Can I customize the architecture?",
+    a: "Absolutely. The foundation is built with clean architectural decoupling. Optional reference applications (TaskFlow and CRM) can be completely disabled with a single environment flag (`DJANGO_ENABLE_DEMO_APPS=false`). You can then add your own domain models into `settings.TENANT_DATABASE_APPS`, register custom quota counters in `QuotaRegistry`, and customize views and serializers to fit your exact business needs."
+  },
+  {
+    q: "7. Is this free or commercially licensed?",
+    a: "Commercial licensing options are currently being finalized. The foundation is source-available for review, testing, and evaluation. We encourage developers and software agencies interested in commercial deployments to contact us directly to discuss licensing terms tailored to their project requirements."
+  },
+  {
+    q: "8. Is it production-ready?",
+    a: "The foundation has undergone comprehensive automated verification, including 152 automated tests in the full integration suite, 9/9 database isolation checks, 3/3 database router checks, and zero Ruff code quality errors. It passes Django's `check --deploy` audit with strict security headers (CSP, HSTS, Permissions-Policy). However, passing tests validate architectural correctness; production readiness for your specific product also depends on your infrastructure sizing, database connection pooling, and workload-specific requirements."
+  },
+  {
+    q: "9. How can I request early access?",
+    a: "You can click any 'Request Early Access' button on this page to open our enquiry form. Share details about what SaaS product you are planning to build, which capabilities you need, and your target timeline. We will review your enquiry and connect with you directly."
+  },
+  {
+    q: "10. Can software agencies use this foundation?",
+    a: "Yes. Software agencies frequently build client applications that require multi-tenancy and organization management. Using this foundation allows agencies to deliver client SaaS projects in a fraction of the time with higher security standards. Please submit a Commercial Licensing enquiry to discuss multi-client agency terms."
+  }
+];
+---
+
+<section id="faq" class="py-20 md:py-28 bg-[#070b14] relative border-t border-surface-border">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-mono font-medium mb-4">
+        <span>Frequently Asked Questions</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Clear Answers for Developers
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-slate-300">
+        Direct, honest explanations regarding architecture, isolation mechanics, licensing, and commercial usage.
+      </p>
+    </div>
+
+    <!-- Accordion FAQ List -->
+    <div class="space-y-4">
+      {faqs.map((faq, idx) => (
+        <details
+          class="group rounded-2xl bg-surface-card border border-surface-border p-5 sm:p-6 transition-all duration-200 open:border-emerald-500/40 open:bg-surface-raised"
+        >
+          <summary class="flex items-center justify-between cursor-pointer list-none focus:outline-none">
+            <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors pr-4">
+              {faq.q}
+            </h3>
+            <span class="w-6 h-6 rounded-full bg-surface-base border border-surface-border flex items-center justify-center shrink-0 text-slate-400 group-open:rotate-180 group-open:text-emerald-400 transition-transform">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </summary>
+          <div class="mt-4 pt-4 border-t border-surface-border/60 text-sm text-slate-300 leading-relaxed">
+            {faq.a}
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <!-- Additional Question Callout -->
+    <div class="mt-12 text-center text-sm text-slate-400">
+      Have a question that is not covered here?
+      <button
+        type="button"
+        data-open-enquiry
+        data-enquiry-type="general-question"
+        class="text-emerald-400 hover:text-emerald-300 font-semibold underline ml-1 cursor-pointer"
+      >
+        Send a general enquiry directly to the maintainer.
+      </button>
+    </div>
+
+  </div>
+</section>
+

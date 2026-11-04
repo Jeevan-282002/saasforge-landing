@@ -1,0 +1,256 @@
+---
+const workflowSteps = [
+  {
+    step: "01",
+    title: "Clone Repository",
+    desc: "Fetch the repository and create your isolated Python virtual environment."
+  },
+  {
+    step: "02",
+    title: "Configure Environment",
+    desc: "Copy .env.example and generate a cryptographically random DJANGO_SECRET_KEY."
+  },
+  {
+    step: "03",
+    title: "Start PostgreSQL & Redis",
+    desc: "Launch PostgreSQL 17 and Redis 7 broker using the included Docker Compose configuration."
+  },
+  {
+    step: "04",
+    title: "Apply Central Migrations",
+    desc: "Run python manage.py migrate --database default to establish the 20 core platform tables."
+  },
+  {
+    step: "05",
+    title: "Create Organizations",
+    desc: "Provision initial customer tenants via API or management commands with dedicated schemas."
+  },
+  {
+    step: "06",
+    title: "Configure Roles & RBAC",
+    desc: "Assign Owner, Admin, Member, and Viewer memberships and generate secure invite links."
+  },
+  {
+    step: "07",
+    title: "Build Your Product Features",
+    desc: "Disable sample apps, register custom quotas in QuotaRegistry, and write your domain logic."
+  }
+];
+---
+
+<section id="developer-experience" class="py-20 md:py-28 bg-[#060911] relative border-t border-surface-border">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium mb-4">
+        <span>Pragmatic Developer Workflow</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Start With the Foundation. Build Your Product.
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-slate-300">
+        A predictable, battle-tested setup using standard Django idioms, virtual environments, and Docker Compose. No custom proprietary CLIs or closed ecosystems.
+      </p>
+    </div>
+
+    <!-- Two-Column Layout: Left Steps, Right Terminal -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left Column: Workflow Steps (5 cols) -->
+      <div class="lg:col-span-5 space-y-4">
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          Intended Implementation Path
+        </h3>
+        
+        <div class="space-y-3">
+          {workflowSteps.map((item) => (
+            <div class="p-3.5 rounded-xl bg-surface-card border border-surface-border hover:border-emerald-500/30 transition-all flex items-start gap-3 group">
+              <span class="text-xs font-mono font-bold px-2 py-1 rounded bg-surface-raised border border-surface-border text-emerald-400 group-hover:bg-emerald-950/60 transition-colors">
+                {item.step}
+              </span>
+              <div>
+                <h4 class="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">
+                  {item.title}
+                </h4>
+                <p class="text-xs text-slate-400 mt-0.5 leading-normal">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Terminal View (7 cols) -->
+      <div class="lg:col-span-7">
+        <div class="rounded-2xl bg-[#090d16] border border-surface-border shadow-2xl overflow-hidden">
+          
+          <!-- Terminal Header with Tabs -->
+          <div class="flex items-center justify-between px-4 py-3 bg-[#0d1424] border-b border-surface-border">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+              <span class="text-xs font-mono text-slate-400 ml-2 hidden sm:inline">bash — developer setup</span>
+            </div>
+
+            <div class="flex items-center gap-1 font-mono text-xs">
+              <button
+                type="button"
+                id="tab-btn-quickstart"
+                class="px-2.5 py-1 rounded-md text-emerald-400 bg-surface-base border border-emerald-800/40 font-medium"
+              >
+                Local Setup
+              </button>
+              <button
+                type="button"
+                id="tab-btn-docker"
+                class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white bg-transparent"
+              >
+                Docker Compose
+              </button>
+              <button
+                type="button"
+                id="tab-btn-extend"
+                class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white bg-transparent"
+              >
+                Building Apps
+              </button>
+            </div>
+          </div>
+
+          <!-- Terminal Content Panels -->
+          <div class="p-5 font-mono text-xs sm:text-sm text-slate-300 leading-relaxed bg-[#060911] min-h-[380px] overflow-x-auto">
+            
+            <!-- Panel 1: Local Setup (Default) -->
+            <div id="terminal-panel-quickstart" class="space-y-4">
+              <div>
+                <span class="text-slate-500"># 1. Clone the repository</span>
+                <p class="text-emerald-400 select-all font-semibold">$ git clone https://github.com/Jeevan-282002/Saas-Boilerplate.git django-saas-foundation</p>
+                <p class="text-slate-300">$ cd django-saas-foundation</p>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># 2. Create and activate virtual environment</span>
+                <p class="text-slate-300">$ python -m venv .venv</p>
+                <p class="text-slate-400"><span class="text-slate-500"># On Linux/macOS:</span> source .venv/bin/activate</p>
+                <p class="text-slate-400"><span class="text-slate-500"># On Windows PS:</span> .venv\Scripts\Activate.ps1</p>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># 3. Install core dependencies with developer tooling</span>
+                <p class="text-slate-300">$ pip install --upgrade pip</p>
+                <p class="text-slate-300">$ pip install -e ".[dev]"</p>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># 4. Generate secret key and configure environment</span>
+                <p class="text-slate-300">$ python -c "import secrets; print(secrets.token_urlsafe(60))"</p>
+                <p class="text-slate-300">$ cp .env.example .env</p>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># 5. Apply central migrations and launch server</span>
+                <p class="text-teal-300 select-all">$ python manage.py migrate --database default</p>
+                <p class="text-emerald-300 select-all font-semibold">$ python manage.py runserver 0.0.0.0:8000</p>
+                <p class="text-slate-500 mt-1">✓ Swagger UI live at http://localhost:8000/api/docs/</p>
+              </div>
+            </div>
+
+            <!-- Panel 2: Docker Compose -->
+            <div id="terminal-panel-docker" class="space-y-4 hidden">
+              <div>
+                <span class="text-slate-500"># Full multi-container stack with PostgreSQL 17, Redis 7 & Celery</span>
+                <p class="text-emerald-400 select-all font-semibold">$ docker compose up -d --build</p>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># Verify running microservices</span>
+                <p class="text-slate-300">$ docker compose ps</p>
+                <pre class="text-[11px] text-slate-500 mt-1">NAME                   IMAGE                    STATUS
+web                    django-saas-foundation   Up 8000->8000/tcp
+celery_worker          django-saas-foundation   Up (tenant-aware)
+celery_beat            django-saas-foundation   Up (scheduler)
+postgres               postgres:17-alpine       Up 5432->5432/tcp
+redis                  redis:7-alpine           Up 6379->6379/tcp</pre>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># Stream tenant background logs</span>
+                <p class="text-slate-300">$ docker compose logs -f celery_worker</p>
+              </div>
+            </div>
+
+            <!-- Panel 3: Building Apps -->
+            <div id="terminal-panel-extend" class="space-y-4 hidden">
+              <div>
+                <span class="text-slate-500"># 1. Disable demo reference apps in .env:</span>
+                <p class="text-amber-300">DJANGO_ENABLE_DEMO_APPS=false</p>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># 2. Add your custom application to settings.TENANT_DATABASE_APPS:</span>
+                <p class="text-slate-300">TENANT_DATABASE_APPS = ["apps.invoices", "apps.ai_agents"]</p>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># 3. Register resource quotas with QuotaRegistry:</span>
+                <pre class="text-[11px] text-teal-300">quota_registry.register(
+  "ai_tokens",
+  lambda sub, db: TokenUsage.objects.using(db).aggregate(...)
+)</pre>
+              </div>
+
+              <div>
+                <span class="text-slate-500"># 4. Migrate tenant databases:</span>
+                <p class="text-emerald-400 select-all">$ python manage.py migrate_tenants</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Terminal Footer with Copy Button -->
+          <div class="px-4 py-2.5 bg-[#0a0f1d] border-t border-surface-border flex items-center justify-between text-xs text-slate-400 font-mono">
+            <span>Standard Django & Docker toolchains</span>
+            <span class="text-[11px] text-slate-500">All commands verified in repository documentation</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const quickstartBtn = document.getElementById('tab-btn-quickstart');
+  const dockerBtn = document.getElementById('tab-btn-docker');
+  const extendBtn = document.getElementById('tab-btn-extend');
+
+  const quickstartPanel = document.getElementById('terminal-panel-quickstart');
+  const dockerPanel = document.getElementById('terminal-panel-docker');
+  const extendPanel = document.getElementById('terminal-panel-extend');
+
+  const tabs = [
+    { btn: quickstartBtn, panel: quickstartPanel },
+    { btn: dockerBtn, panel: dockerPanel },
+    { btn: extendBtn, panel: extendPanel }
+  ];
+
+  tabs.forEach(({ btn, panel }) => {
+    btn?.addEventListener('click', () => {
+      tabs.forEach(({ btn: b, panel: p }) => {
+        b?.classList.remove('text-emerald-400', 'bg-surface-base', 'border', 'border-emerald-800/40', 'font-medium');
+        b?.classList.add('text-slate-400', 'bg-transparent');
+        p?.classList.add('hidden');
+      });
+
+      btn.classList.add('text-emerald-400', 'bg-surface-base', 'border', 'border-emerald-800/40', 'font-medium');
+      btn.classList.remove('text-slate-400', 'bg-transparent');
+      panel?.classList.remove('hidden');
+    });
+  });
+</script>
+

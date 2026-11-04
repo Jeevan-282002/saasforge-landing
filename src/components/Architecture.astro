@@ -1,0 +1,242 @@
+---
+---
+
+<section id="architecture" class="py-20 md:py-28 bg-[#070b14] relative border-t border-surface-border">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-mono font-medium mb-4">
+        <span>Architectural Source of Truth</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Designed Around Real SaaS Architecture.
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-slate-300">
+        A zero-trust, multi-layered architecture separating central platform identity from isolated tenant databases, validated by benchmarked sub-millisecond context switching.
+      </p>
+    </div>
+
+    <!-- Main Architecture Diagram Box -->
+    <div class="rounded-2xl bg-surface-base border border-surface-border p-6 sm:p-8 shadow-2xl relative overflow-hidden mb-12">
+      
+      <!-- Ambient Glow Behind Diagram -->
+      <div class="absolute -top-32 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Architectural Layers Representation -->
+      <div class="space-y-6">
+        
+        <!-- Layer 1: Client & Ingress Gateway -->
+        <div class="rounded-xl bg-surface-card border border-surface-border p-4 sm:p-5">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+            <span class="text-xs font-mono uppercase text-emerald-400 font-bold tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              Layer 1 · Ingress & Request Correlation
+            </span>
+            <span class="text-xs font-mono text-slate-400">Nginx / SSL Ingress / API Gateway</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5 flex items-center justify-between">
+              <div>
+                <span class="text-slate-400 block text-[10px]">HOST HEADER RESOLUTION</span>
+                <span class="text-white font-semibold">acme.domain.com</span>
+              </div>
+              <span class="text-emerald-400 text-[10px] px-1.5 py-0.5 rounded bg-emerald-950">Subdomain</span>
+            </div>
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5 flex items-center justify-between">
+              <div>
+                <span class="text-slate-400 block text-[10px]">API HEADER RESOLUTION</span>
+                <span class="text-teal-300 font-semibold">X-Organization: beta</span>
+              </div>
+              <span class="text-teal-400 text-[10px] px-1.5 py-0.5 rounded bg-teal-950">Headless API</span>
+            </div>
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5 flex items-center justify-between">
+              <div>
+                <span class="text-slate-400 block text-[10px]">DISTRIBUTED TRACING</span>
+                <span class="text-indigo-300 font-semibold">X-Request-ID: uuid4</span>
+              </div>
+              <span class="text-indigo-400 text-[10px] px-1.5 py-0.5 rounded bg-indigo-950">Correlation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connector Down Arrow -->
+        <div class="flex justify-center text-slate-500 my-1">
+          <svg class="w-5 h-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+
+        <!-- Layer 2: Django Middleware Pipeline -->
+        <div class="rounded-xl bg-surface-card border border-surface-border p-4 sm:p-5">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+            <span class="text-xs font-mono uppercase text-indigo-400 font-bold tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+              Layer 2 · Deterministic Middleware Stack
+            </span>
+            <span class="text-xs font-mono text-slate-400">Ordered Execution Pipeline</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-xs">
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5">
+              <span class="text-slate-500 text-[10px] block">01 TRACING</span>
+              <span class="text-white font-semibold">CorrelationMW</span>
+              <p class="text-[11px] text-slate-400 mt-1">ContextVar request ID binding</p>
+            </div>
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5">
+              <span class="text-slate-500 text-[10px] block">02 SECURITY</span>
+              <span class="text-white font-semibold">SecurityHeadersMW</span>
+              <p class="text-[11px] text-slate-400 mt-1">CSP, HSTS, Permissions-Policy</p>
+            </div>
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5">
+              <span class="text-slate-500 text-[10px] block">03 IDENTITY</span>
+              <span class="text-white font-semibold">SimpleJWT + Auth</span>
+              <p class="text-[11px] text-slate-400 mt-1">Stateless token rotation & blacklist</p>
+            </div>
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5">
+              <span class="text-slate-500 text-[10px] block">04 TENANCY</span>
+              <span class="text-white font-semibold">TenantMiddleware</span>
+              <p class="text-[11px] text-slate-400 mt-1">Resolves tenant & sets DB alias</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connector Down Arrow -->
+        <div class="flex justify-center text-slate-500 my-1">
+          <svg class="w-5 h-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+
+        <!-- Layer 3: Dynamic Tenant Database Router -->
+        <div class="rounded-xl bg-surface-card border border-surface-border p-4 sm:p-5">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+            <span class="text-xs font-mono uppercase text-teal-400 font-bold tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+              Layer 3 · TenantDatabaseRouter
+            </span>
+            <span class="text-xs font-mono text-slate-400">ContextVar-Driven Dynamic Aliasing</span>
+          </div>
+          <div class="p-3 rounded-lg bg-surface-raised border border-white/5 font-mono text-xs text-slate-300">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span>App Label Evaluation:</span>
+              <div class="flex gap-2">
+                <span class="px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800">auth, tenants, subscriptions → default</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">projects, contacts, consumer_apps → tenant_alias</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connector Down Arrow -->
+        <div class="flex justify-center text-slate-500 my-1">
+          <svg class="w-5 h-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+
+        <!-- Layer 4: Physical Storage Split (PostgreSQL) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          
+          <!-- Central Platform Database -->
+          <div class="rounded-xl bg-surface-card border border-indigo-500/40 p-5">
+            <div class="flex items-center justify-between mb-3 font-mono">
+              <span class="text-xs uppercase text-indigo-400 font-bold flex items-center gap-2">
+                <svg class="w-4 h-4 text-indigo-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 4.02 2 6.5v11C2 19.98 6.48 22 12 22s10-2.02 10-4.5v-11C22 4.02 17.52 2 12 2zm0 3c4.41 0 8-1.34 8-2s-3.59-2-8-2-8 1.34-8 2 3.59 2 8 2z"/></svg>
+                Central Platform Database (PostgreSQL 17)
+              </span>
+              <span class="text-[10px] bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded">default</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Maintains global platform state, authentication records, and subscription billing.</p>
+            <div class="grid grid-cols-2 gap-2 text-xs font-mono text-slate-300">
+              <div class="p-2 rounded bg-surface-raised border border-white/5">Users & Credentials</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">Tenants & Metadata</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">4-Tier Memberships</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">Cryptographic Invites</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">Subscription Quotas</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">Sanitized Audit Logs</div>
+            </div>
+          </div>
+
+          <!-- Isolated Dynamic Tenant Databases -->
+          <div class="rounded-xl bg-surface-card border border-emerald-500/40 p-5">
+            <div class="flex items-center justify-between mb-3 font-mono">
+              <span class="text-xs uppercase text-emerald-400 font-bold flex items-center gap-2">
+                <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 4.02 2 6.5v11C2 19.98 6.48 22 12 22s10-2.02 10-4.5v-11C22 4.02 17.52 2 12 2zm0 3c4.41 0 8-1.34 8-2s-3.59-2-8-2-8 1.34-8 2 3.59 2 8 2z"/></svg>
+                Physical Tenant Databases (PostgreSQL 17)
+              </span>
+              <span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded">Dynamic Alias</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Dedicated physical databases per customer. Zero cross-tenant data contamination.</p>
+            <div class="grid grid-cols-2 gap-2 text-xs font-mono text-slate-300">
+              <div class="p-2 rounded bg-surface-raised border border-emerald-900/30 text-emerald-300">tenant_acmecorp DB</div>
+              <div class="p-2 rounded bg-surface-raised border border-emerald-900/30 text-emerald-300">tenant_betacorp DB</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">Consumer Domain Models</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">Independent Migrations</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">Per-Tenant Backup/Restore</div>
+              <div class="p-2 rounded bg-surface-raised border border-white/5">GDPR 1-Click Drop DB</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Layer 5: Asynchronous Worker & Outbox Infrastructure -->
+        <div class="rounded-xl bg-surface-card border border-surface-border p-4 sm:p-5 mt-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+            <span class="text-xs font-mono uppercase text-amber-400 font-bold tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              Layer 5 · Asynchronous Infrastructure & Transactional Outbox
+            </span>
+            <span class="text-xs font-mono text-slate-400">Celery 5.4 + Redis 7 Broker</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs text-slate-300">
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5">
+              <span class="text-amber-300 block font-semibold mb-1">Transactional Outbox</span>
+              <span class="text-slate-400 text-[11px]">Row-level locked event dispatch prevents dual-write failures during network outages.</span>
+            </div>
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5">
+              <span class="text-amber-300 block font-semibold mb-1">TenantAwareTask</span>
+              <span class="text-slate-400 text-[11px]">Celery workers automatically set thread-local database routing before executing task logic.</span>
+            </div>
+            <div class="p-3 rounded-lg bg-surface-raised border border-white/5">
+              <span class="text-amber-300 block font-semibold mb-1">Celery Beat Scheduler</span>
+              <span class="text-slate-400 text-[11px]">Handles subscription renewal checks, quota counter resets, and stale invitation cleanup.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Code Blueprint Example: The QuotaRegistry Pattern -->
+    <div class="rounded-2xl bg-surface-base border border-surface-border overflow-hidden shadow-xl">
+      <div class="flex items-center justify-between px-4 py-3 bg-[#0a0f1d] border-b border-surface-border text-xs font-mono text-slate-400">
+        <div class="flex items-center gap-2">
+          <span class="text-emerald-400">apps/subscriptions/quota.py</span>
+          <span class="text-slate-600">//</span>
+          <span class="text-slate-400">Decoupled Universal Quota Engine</span>
+        </div>
+        <span class="text-[11px] text-slate-500">Registry Pattern (0 Coupling to Business Models)</span>
+      </div>
+      <div class="p-4 sm:p-6 bg-[#050811] overflow-x-auto text-xs sm:text-sm font-mono text-slate-300 leading-relaxed">
+        <pre class="text-slate-300"><code><span class="text-slate-500"># Consumer applications register quotas without touching Foundation billing models:</span>
+<span class="text-indigo-400">from</span> apps.subscriptions.quota <span class="text-indigo-400">import</span> quota_registry
+
+<span class="text-emerald-400">quota_registry</span>.register(
+    resource_name=<span class="text-teal-300">"invoices"</span>,
+    counter=<span class="text-indigo-400">lambda</span> subscription, db: Invoice.objects.using(db).count(),
+    limit_key=<span class="text-teal-300">"max_monthly_invoices"</span>,
+    display_name=<span class="text-teal-300">"Monthly Invoices"</span>
+)
+
+<span class="text-slate-500"># Enforcement in your views or API mutations:</span>
+quota_registry.enforce(
+    subscription=request.tenant.subscription,
+    name=<span class="text-teal-300">"invoices"</span>,
+    increment=<span class="text-amber-300">1</span>,
+    tenant_database=request.tenant_db_alias
+)  <span class="text-slate-500"># Raises QuotaExceededError (HTTP 402/429) automatically if limits are met!</span></code></pre>
+      </div>
+    </div>
+
+  </div>
+</section>
+
