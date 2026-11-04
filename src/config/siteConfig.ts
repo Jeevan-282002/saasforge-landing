@@ -57,6 +57,12 @@ export interface SiteConfig {
       errors: number;
     };
   };
+  tally: {
+    formId: string;
+    embedUrl: string;
+    directUrl: string;
+    defaultFormUrl: string;
+  };
   earlyAccess: {
     endpoint: string;
     targetCohort: string;
@@ -125,6 +131,12 @@ export const siteConfig: SiteConfig = {
       tool: "Ruff Linter & Formatter",
       errors: 0,
     },
+  },
+  tally: {
+    formId: "laBxAB",
+    embedUrl: (typeof process !== "undefined" && process.env?.PUBLIC_TALLY_EMBED_URL) || (import.meta as any).env?.PUBLIC_TALLY_EMBED_URL || "https://tally.so/embed/laBxAB",
+    directUrl: (typeof process !== "undefined" && process.env?.PUBLIC_TALLY_FORM_URL) || (import.meta as any).env?.PUBLIC_TALLY_FORM_URL || "https://tally.so/r/laBxAB",
+    defaultFormUrl: (typeof process !== "undefined" && process.env?.PUBLIC_TALLY_FORM_URL) || (import.meta as any).env?.PUBLIC_TALLY_FORM_URL || "https://tally.so/r/laBxAB",
   },
   earlyAccess: {
     endpoint: "/api/early-access",

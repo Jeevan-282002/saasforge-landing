@@ -1,28 +1,38 @@
 ---
 import { siteConfig } from '../config/siteConfig';
+
+const rawEmbedUrl = import.meta.env.PUBLIC_TALLY_EMBED_URL || "";
+const rawFormUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || "";
+
+// Direct public URL for opening form in a new window/tab
+const directUrl = rawFormUrl || siteConfig.tally.directUrl || "https://tally.so/r/laBxAB";
+
+// Embed URL for responsive inline iframe embed
+const embedUrl = rawEmbedUrl ||
+  siteConfig.tally.embedUrl ||
+  (directUrl.includes('/r/') ? directUrl.replace('/r/', '/embed/') : "https://tally.so/embed/laBxAB");
+
+const isFormConfigured = Boolean(embedUrl || directUrl);
 ---
 
-<!-- Global Early Access Custom Modal Dialog -->
+<!-- Global Enquiry Modal Dialog -->
 <div
   id="enquiry-modal"
-  class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/85 backdrop-blur-md p-3 sm:p-6"
+  class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/80 backdrop-blur-md p-3 sm:p-6"
   role="dialog"
   aria-modal="true"
   aria-labelledby="modal-headline"
 >
   <div id="modal-backdrop-wrapper" class="min-h-full w-full flex items-center justify-center py-4 sm:py-8">
-    <div
-      id="modal-content-card"
-      class="relative w-full max-w-2xl bg-surface-base border border-surface-border rounded-2xl shadow-2xl p-6 sm:p-8 my-auto overflow-hidden text-left"
-    >
-      <!-- Ambient top emerald glow -->
+    <div id="modal-content-card" class="relative w-full max-w-2xl bg-surface-base border border-surface-border rounded-2xl shadow-2xl p-5 sm:p-8 my-auto overflow-hidden text-left">
+      <!-- Ambient top glow -->
       <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-32 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
 
       <!-- Close button -->
       <button
         id="modal-close-btn"
         type="button"
-        class="absolute top-5 right-5 text-slate-400 hover:text-white bg-surface-raised hover:bg-surface-border p-2 rounded-lg transition-colors z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+        class="absolute top-5 right-5 text-slate-400 hover:text-white bg-surface-raised hover:bg-surface-border p-2 rounded-lg transition-colors z-20"
         aria-label="Close modal"
       >
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,295 +40,309 @@ import { siteConfig } from '../config/siteConfig';
         </svg>
       </button>
 
-      <!-- Modal Header -->
-      <div id="modal-header-section" class="mb-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-800/50 text-emerald-400 text-xs font-medium mb-3">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          Early Access Cohort
-        </div>
-        <h3 id="modal-headline" class="text-2xl font-bold text-white tracking-tight">
-          Request Early Access to SaaSForge
-        </h3>
-        <p class="text-slate-400 text-sm mt-1">
-          Tell us about your project requirements. Our engineering team reviews each application and gets in touch directly.
-        </p>
+    <!-- Modal Header -->
+    <div class="mb-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/40 text-emerald-400 text-xs font-medium mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        Direct Product Access
       </div>
+      <h3 id="modal-headline" class="text-2xl font-bold text-white tracking-tight">
+        Connect With the Product Owner
+      </h3>
+      <p class="text-slate-400 text-sm mt-1">
+        Request early access, discuss commercial licensing, or share your SaaS project requirements.
+      </p>
+    </div>
 
-      <!-- Main Custom Form Container -->
-      <div id="form-wrapper">
-        <!-- Global Server Error Alert (Initially Hidden) -->
-        <div id="form-alert-error" class="hidden mb-5 p-4 rounded-xl bg-rose-950/50 border border-rose-800/60 text-rose-300 text-sm">
-          <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-rose-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    <!-- Tally Form Integration or Development Preview -->
+    {isFormConfigured ? (
+      <div class="space-y-4">
+        <div class="relative w-full min-h-[480px] rounded-xl overflow-hidden bg-surface-card border border-surface-border">
+          <!-- Ambient loader indicator displayed while iframe initializes -->
+          <div id="tally-loading" class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-400 pointer-events-none">
+            <div class="w-8 h-8 rounded-full border-2 border-emerald-500/20 border-t-emerald-400 animate-spin"></div>
+            <span class="text-xs">Loading enquiry form...</span>
+          </div>
+          <iframe
+            id="tally-iframe"
+            data-tally-src={`${embedUrl}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+            loading="lazy"
+            width="100%"
+            height="500"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title="Django SaaS Foundation Enquiry Form"
+            class="w-full relative z-10"
+            onload="document.getElementById('tally-loading')?.classList.add('hidden')"
+          ></iframe>
+        </div>
+        <div class="flex items-center justify-between text-xs text-slate-400 pt-2">
+          <span>Having trouble loading?</span>
+          <a
+            href={directUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-emerald-400 hover:text-emerald-300 font-medium underline inline-flex items-center gap-1"
+          >
+            Open form in new window
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
-            <div id="form-alert-error-message" class="flex-1">
-              An error occurred while submitting your request. Please try again.
+          </a>
+        </div>
+      </div>
+    ) : (
+      <div class="space-y-6">
+        <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm">
+          <div class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <strong class="font-semibold block text-amber-300">Development Configuration Notice</strong>
+              <p class="text-xs text-amber-200/90 mt-1">
+                <code class="px-1.5 py-0.5 rounded bg-black/40 text-amber-300">PUBLIC_TALLY_FORM_URL</code> is not configured.
+                Submissions will not be sent to a live endpoint. Below is the interactive UI preview of the required enquiry fields.
+              </p>
             </div>
           </div>
         </div>
 
-        <form id="early-access-form" class="space-y-4" novalidate>
-          <!-- Hidden anti-spam honeypot (bots will fill this, real users never see it) -->
-          <div class="sr-only" aria-hidden="true">
-            <label for="website_url_hp">Leave this field blank</label>
-            <input type="text" id="website_url_hp" name="website_url_hp" tabindex="-1" autocomplete="off" />
-          </div>
-
-          <!-- Row 1: Full Name & Work Email -->
+        <form id="preview-enquiry-form" class="space-y-4 text-left" onsubmit="event.preventDefault(); window.handlePreviewSubmit(event);">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label for="field-fullName" class="block text-xs font-semibold text-slate-300 mb-1.5">
+              <label for="preview-name" class="block text-xs font-medium text-slate-300 mb-1">
                 Full Name <span class="text-emerald-400">*</span>
               </label>
               <input
                 type="text"
-                id="field-fullName"
-                name="fullName"
+                id="preview-name"
+                name="name"
                 required
-                autocomplete="name"
                 placeholder="Jane Doe"
-                class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 transition-colors"
               />
-              <span id="err-fullName" class="hidden text-xs text-rose-400 mt-1 inline-flex items-center gap-1"></span>
             </div>
-
             <div>
-              <label for="field-email" class="block text-xs font-semibold text-slate-300 mb-1.5">
-                Work Email <span class="text-emerald-400">*</span>
+              <label for="preview-email" class="block text-xs font-medium text-slate-300 mb-1">
+                Email Address <span class="text-emerald-400">*</span>
               </label>
               <input
                 type="email"
-                id="field-email"
+                id="preview-email"
                 name="email"
                 required
-                autocomplete="email"
                 placeholder="jane@company.com"
-                class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 transition-colors"
               />
-              <span id="err-email" class="hidden text-xs text-rose-400 mt-1 inline-flex items-center gap-1"></span>
             </div>
           </div>
 
-          <!-- Row 2: Phone Number (Indian) & Company -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label for="field-phone" class="block text-xs font-semibold text-slate-300 mb-1.5">
-                Phone Number <span class="text-emerald-400">*</span>
+              <label for="preview-enquiry-type" class="block text-xs font-medium text-slate-300 mb-1">
+                Enquiry Type <span class="text-emerald-400">*</span>
               </label>
-              <div class="relative flex items-center">
-                <span class="absolute left-3 text-xs font-mono font-medium text-slate-400 select-none border-r border-slate-700 pr-2">
-                  🇮🇳 +91
-                </span>
-                <input
-                  type="tel"
-                  id="field-phone"
-                  name="phone"
-                  required
-                  autocomplete="tel"
-                  placeholder="98765 43210"
-                  class="w-full pl-20 pr-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
-                />
-              </div>
-              <span id="err-phone" class="hidden text-xs text-rose-400 mt-1 inline-flex items-center gap-1"></span>
-            </div>
-
-            <div>
-              <label for="field-company" class="block text-xs font-semibold text-slate-300 mb-1.5">
-                Company / Startup Name <span class="text-slate-500 font-normal">(Optional)</span>
-              </label>
-              <input
-                type="text"
-                id="field-company"
-                name="company"
-                autocomplete="organization"
-                placeholder="Acme Inc. or Stealth Project"
-                class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
-              />
-              <span id="err-company" class="hidden text-xs text-rose-400 mt-1 inline-flex items-center gap-1"></span>
-            </div>
-          </div>
-
-          <!-- Row 3: Your Role & Project Type -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label for="field-role" class="block text-xs font-semibold text-slate-300 mb-1.5">
-                Your Role <span class="text-emerald-400">*</span>
-              </label>
-              <div class="relative">
-                <select
-                  id="field-role"
-                  name="role"
-                  required
-                  class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors appearance-none cursor-pointer pr-10"
-                >
-                  <option value="Founder" selected>Founder</option>
-                  <option value="Django Developer">Django Developer</option>
-                  <option value="Software Agency">Software Agency</option>
-                  <option value="Freelancer">Freelancer</option>
-                  <option value="Other">Other</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label for="field-projectType" class="block text-xs font-semibold text-slate-300 mb-1.5">
-                What are you planning to build? <span class="text-emerald-400">*</span>
-              </label>
-              <div class="relative">
-                <select
-                  id="field-projectType"
-                  name="projectType"
-                  required
-                  class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors appearance-none cursor-pointer pr-10"
-                >
-                  <option value="SaaS Application" selected>SaaS Application</option>
-                  <option value="Multi-Tenant Application">Multi-Tenant Application</option>
-                  <option value="Client Project">Client Project</option>
-                  <option value="Internal Business Application">Internal Business Application</option>
-                  <option value="Other">Other</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Row 4: Expected Project Timeline -->
-          <div>
-            <label for="field-timeline" class="block text-xs font-semibold text-slate-300 mb-1.5">
-              Expected Project Timeline <span class="text-emerald-400">*</span>
-            </label>
-            <div class="relative">
               <select
-                id="field-timeline"
-                name="timeline"
+                id="preview-enquiry-type"
+                name="enquiryType"
                 required
-                class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors appearance-none cursor-pointer pr-10"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 text-sm focus:border-emerald-500 transition-colors"
               >
-                <option value="Immediately">Immediately (Within 1-2 weeks)</option>
-                <option value="Within 1 Month" selected>Within 1 Month</option>
-                <option value="Within 3 Months">Within 3 Months</option>
-                <option value="Just Exploring">Just Exploring / Research Phase</option>
+                <option value="early-access">Request Early Access</option>
+                <option value="commercial-licensing">Commercial Licensing Enquiry</option>
+                <option value="general-question">General Question</option>
+                <option value="partnership">Partnership / Collaboration</option>
               </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
+            </div>
+            <div>
+              <label for="preview-role" class="block text-xs font-medium text-slate-300 mb-1">
+                I am a: <span class="text-emerald-400">*</span>
+              </label>
+              <select
+                id="preview-role"
+                name="role"
+                required
+                class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 text-sm focus:border-emerald-500 transition-colors"
+              >
+                <option value="individual-developer">Individual Developer</option>
+                <option value="freelancer">Freelancer</option>
+                <option value="startup-founder">Startup Founder</option>
+                <option value="software-agency">Software Agency</option>
+                <option value="engineering-team">Engineering Team</option>
+                <option value="other">Other</option>
+              </select>
             </div>
           </div>
 
-          <!-- Row 5: Additional Requirements (Optional) -->
           <div>
-            <label for="field-requirements" class="block text-xs font-semibold text-slate-300 mb-1.5">
-              Additional Requirements or Architecture Questions <span class="text-slate-500 font-normal">(Optional)</span>
+            <label for="preview-org" class="block text-xs font-medium text-slate-300 mb-1">
+              Organization Name <span class="text-slate-500 font-normal">(Optional)</span>
+            </label>
+            <input
+              type="text"
+              id="preview-org"
+              name="organization"
+              placeholder="Acme Inc. or Project Name"
+              class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1.5">
+              Which capabilities interest you most?
+            </label>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+              <label class="flex items-center gap-2 p-2 rounded bg-surface-card border border-surface-border text-slate-300 cursor-pointer hover:border-slate-600">
+                <input type="checkbox" name="capabilities" value="multi-tenancy" class="rounded text-emerald-500 bg-surface-raised border-slate-700" checked />
+                <span>Multi-tenancy</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded bg-surface-card border border-surface-border text-slate-300 cursor-pointer hover:border-slate-600">
+                <input type="checkbox" name="capabilities" value="rbac" class="rounded text-emerald-500 bg-surface-raised border-slate-700" checked />
+                <span>4-Tier RBAC</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded bg-surface-card border border-surface-border text-slate-300 cursor-pointer hover:border-slate-600">
+                <input type="checkbox" name="capabilities" value="quota-engine" class="rounded text-emerald-500 bg-surface-raised border-slate-700" />
+                <span>Quota Engine</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded bg-surface-card border border-surface-border text-slate-300 cursor-pointer hover:border-slate-600">
+                <input type="checkbox" name="capabilities" value="audit-logging" class="rounded text-emerald-500 bg-surface-raised border-slate-700" />
+                <span>Audit Logging</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded bg-surface-card border border-surface-border text-slate-300 cursor-pointer hover:border-slate-600">
+                <input type="checkbox" name="capabilities" value="celery-outbox" class="rounded text-emerald-500 bg-surface-raised border-slate-700" />
+                <span>Celery & Outbox</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded bg-surface-card border border-surface-border text-slate-300 cursor-pointer hover:border-slate-600">
+                <input type="checkbox" name="capabilities" value="complete-foundation" class="rounded text-emerald-500 bg-surface-raised border-slate-700" checked />
+                <span>Complete Core</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label for="preview-planning" class="block text-xs font-medium text-slate-300 mb-1">
+              What are you planning to build?
+            </label>
+            <input
+              type="text"
+              id="preview-planning"
+              name="planning"
+              placeholder="e.g. B2B Analytics SaaS, Healthcare Portal, Multi-tenant CRM"
+              class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label for="preview-message" class="block text-xs font-medium text-slate-300 mb-1">
+              Additional Message or Specific Questions
             </label>
             <textarea
-              id="field-requirements"
-              name="requirements"
+              id="preview-message"
+              name="message"
               rows="3"
-              placeholder="Tell us about your multi-tenancy requirements, target tenant count, licensing needs, or specific Django integrations..."
-              class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors resize-none"
+              placeholder="Tell us about your timeline, expected tenant volumes, or questions regarding licensing."
+              class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-surface-border text-slate-100 placeholder-slate-500 text-sm focus:border-emerald-500 transition-colors resize-none"
             ></textarea>
-            <span id="err-requirements" class="hidden text-xs text-rose-400 mt-1 inline-flex items-center gap-1"></span>
           </div>
 
-          <!-- Submit Button -->
-          <div class="pt-2">
-            <button
-              id="btn-submit-early-access"
-              type="submit"
-              class="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-semibold text-sm transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              <span id="btn-submit-text">Request Early Access</span>
-              <svg id="btn-submit-spinner" class="hidden w-4 h-4 animate-spin text-slate-950" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-              </svg>
-            </button>
-          </div>
+          <!-- Dev notice on submit -->
+          <div id="preview-feedback" class="hidden p-3 rounded-lg text-xs font-medium"></div>
+
+          <button
+            type="submit"
+            class="w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-sm transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.99]"
+          >
+            Submit Enquiry (Preview Mode)
+          </button>
         </form>
       </div>
+    )}
 
-      <!-- Success State Card (Replaces form upon verified submission) -->
-      <div id="form-success-state" class="hidden py-8 px-4 text-center">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
-          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-        <h4 class="text-2xl font-bold text-white tracking-tight mb-2">
-          Thank you for your interest in SaaSForge!
-        </h4>
-        <p class="text-slate-300 text-sm max-w-md mx-auto leading-relaxed mb-6">
-          We've received your early access request. Our team will review your requirements and get in touch with you shortly.
-        </p>
-
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-card border border-surface-border text-xs text-slate-400 mb-8">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span>Application ID: <code id="success-lead-id" class="text-emerald-300 font-mono">--</code></span>
-        </div>
-
-        <div>
-          <button
-            id="btn-success-close"
-            type="button"
-            class="px-6 py-2.5 rounded-xl bg-surface-raised hover:bg-surface-border text-slate-200 text-sm font-medium border border-surface-border transition-colors cursor-pointer"
-          >
-            Close Window
-          </button>
-        </div>
+    <!-- Privacy Notice -->
+    <div class="mt-6 pt-4 border-t border-surface-border flex items-center justify-between text-xs text-slate-400">
+      <div class="flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        <span>We respect your privacy. Submissions are never sold or shared.</span>
       </div>
-
-      <!-- Privacy Notice Footer -->
-      <div class="mt-6 pt-4 border-t border-surface-border flex items-center justify-between text-xs text-slate-400">
-        <div class="flex items-center gap-1.5">
-          <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
-          <span>We respect your privacy. Direct engineering inquiries only.</span>
-        </div>
-        <a href="/privacy" class="text-slate-400 hover:text-slate-300 underline">Privacy Policy</a>
-      </div>
+      <a href="/privacy" class="text-slate-400 hover:text-slate-300 underline">Privacy Policy</a>
+    </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Script Handling & Secure Client Validation -->
+<!-- Modal Script Handling -->
 <script>
+  // Ensure script runs on client side
   const modal = document.getElementById('enquiry-modal');
   const closeBtn = document.getElementById('modal-close-btn');
-  const formWrapper = document.getElementById('form-wrapper');
-  const formSuccess = document.getElementById('form-success-state');
-  const form = document.getElementById('early-access-form') as HTMLFormElement | null;
-  const submitBtn = document.getElementById('btn-submit-early-access') as HTMLButtonElement | null;
-  const submitText = document.getElementById('btn-submit-text');
-  const submitSpinner = document.getElementById('btn-submit-spinner');
-  const successCloseBtn = document.getElementById('btn-success-close');
-  const successLeadId = document.getElementById('success-lead-id');
-  const alertError = document.getElementById('form-alert-error');
-  const alertErrorMessage = document.getElementById('form-alert-error-message');
+  const previewFeedback = document.getElementById('preview-feedback');
 
-  function openModal() {
+  function initTallyEmbed() {
+    const iframe = document.getElementById('tally-iframe') as HTMLIFrameElement | null;
+    if (!iframe) return;
+
+    // If iframe is already initialized and active, do not reset it
+    if (iframe.dataset.tallyEmbedWidgetInitialized === '1' && iframe.src) {
+      return;
+    }
+
+    const triggerTally = () => {
+      if (typeof (window as any).Tally !== 'undefined') {
+        (window as any).Tally.loadEmbeds();
+      } else if (!iframe.src && iframe.dataset.tallySrc) {
+        // Direct fallback: if Tally script is blocked or unreachable
+        iframe.src = iframe.dataset.tallySrc;
+      }
+    };
+
+    const tallyScriptSrc = 'https://tally.so/widgets/embed.js';
+    const existingScript = document.querySelector(`script[src="${tallyScriptSrc}"]`);
+
+    if (typeof (window as any).Tally !== 'undefined') {
+      (window as any).Tally.loadEmbeds();
+    } else if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = tallyScriptSrc;
+      script.async = true;
+      script.onload = triggerTally;
+      script.onerror = triggerTally;
+      document.body.appendChild(script);
+    } else {
+      existingScript.addEventListener('load', triggerTally, { once: true });
+      existingScript.addEventListener('error', triggerTally, { once: true });
+    }
+
+    // Safety fallback: if after 400ms src is not set by IntersectionObserver, set it directly
+    setTimeout(() => {
+      if (!iframe.src && iframe.dataset.tallySrc) {
+        if (typeof (window as any).Tally !== 'undefined') {
+          (window as any).Tally.loadEmbeds();
+        } else {
+          iframe.src = iframe.dataset.tallySrc;
+        }
+      }
+    }, 400);
+  }
+
+  function openModal(enquiryType?: string) {
     if (!modal) return;
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     modal.scrollTop = 0;
     document.body.style.overflow = 'hidden';
 
-    // Focus on first input
-    setTimeout(() => {
-      document.getElementById('field-fullName')?.focus();
-    }, 100);
+    // If preview form exists, set default type
+    const typeSelect = document.getElementById('preview-enquiry-type') as HTMLSelectElement | null;
+    if (typeSelect && enquiryType) {
+      typeSelect.value = enquiryType;
+    }
+
+    // Initialize Tally embed when modal opens
+    initTallyEmbed();
   }
 
   function closeModal() {
@@ -329,9 +353,7 @@ import { siteConfig } from '../config/siteConfig';
   }
 
   closeBtn?.addEventListener('click', closeModal);
-  successCloseBtn?.addEventListener('click', closeModal);
 
-  // Click outside modal card to close
   modal?.addEventListener('click', (e) => {
     const card = document.getElementById('modal-content-card');
     if (card && !card.contains(e.target as Node)) {
@@ -339,196 +361,33 @@ import { siteConfig } from '../config/siteConfig';
     }
   });
 
-  // ESC key listener
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
       closeModal();
     }
   });
 
-  // Wire up all CTA trigger buttons across the landing page
+  // Attach to all elements with [data-open-enquiry]
   document.querySelectorAll('[data-open-enquiry]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      openModal();
-      (window as any).trackEvent?.('early_access_modal_opened');
+      const enquiryType = btn.getAttribute('data-enquiry-type') || 'early-access';
+      openModal(enquiryType);
+      (window as any).trackEvent?.('enquiry_modal_opened', { enquiryType });
     });
   });
 
-  // Inline Validation Helpers
-  function showError(fieldId: string, message: string) {
-    const errSpan = document.getElementById(`err-${fieldId}`);
-    const inputElem = document.getElementById(`field-${fieldId}`);
-    if (errSpan) {
-      errSpan.textContent = message;
-      errSpan.classList.remove('hidden');
+  // Preview form handler
+  (window as any).handlePreviewSubmit = (event: Event) => {
+    event.preventDefault();
+    if (previewFeedback) {
+      previewFeedback.classList.remove('hidden');
+      previewFeedback.className = 'p-3 rounded-lg text-xs font-medium bg-emerald-950/60 border border-emerald-800 text-emerald-300';
+      previewFeedback.innerHTML = `
+        <strong>Preview Validated:</strong> Form fields captured correctly in development mode.
+        To route enquiries to your inbox & Google Sheets, configure <code class="px-1 py-0.5 rounded bg-black/40 text-emerald-200">PUBLIC_TALLY_FORM_URL</code> in your deployment environment variables.
+      `;
     }
-    if (inputElem) {
-      inputElem.classList.add('border-rose-500', 'focus:ring-rose-500/40');
-      inputElem.classList.remove('border-surface-border');
-    }
-  }
-
-  function clearError(fieldId: string) {
-    const errSpan = document.getElementById(`err-${fieldId}`);
-    const inputElem = document.getElementById(`field-${fieldId}`);
-    if (errSpan) {
-      errSpan.textContent = '';
-      errSpan.classList.add('hidden');
-    }
-    if (inputElem) {
-      inputElem.classList.remove('border-rose-500', 'focus:ring-rose-500/40');
-      inputElem.classList.add('border-surface-border');
-    }
-  }
-
-  // Clear errors as user types
-  ['fullName', 'email', 'phone', 'company', 'requirements'].forEach((field) => {
-    const el = document.getElementById(`field-${field}`);
-    el?.addEventListener('input', () => clearError(field));
-  });
-
-  function validateClient(): boolean {
-    let isValid = true;
-
-    // Full name
-    const fullNameInput = (document.getElementById('field-fullName') as HTMLInputElement)?.value.trim();
-    if (!fullNameInput || fullNameInput.length < 2) {
-      showError('fullName', 'Please enter your full name (minimum 2 characters).');
-      isValid = false;
-    } else {
-      clearError('fullName');
-    }
-
-    // Work Email
-    const emailInput = (document.getElementById('field-email') as HTMLInputElement)?.value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (!emailInput) {
-      showError('email', 'Work email is required.');
-      isValid = false;
-    } else if (!emailRegex.test(emailInput)) {
-      showError('email', 'Please provide a valid work email address.');
-      isValid = false;
-    } else {
-      clearError('email');
-    }
-
-    // Phone Number (Indian mobile validation)
-    const phoneInput = (document.getElementById('field-phone') as HTMLInputElement)?.value.trim();
-    const digitsOnly = phoneInput.replace(/[\s\-\(\)\+]/g, '');
-    let isIndianPhoneValid = false;
-    if (digitsOnly.length === 10 && /^[6-9]\d{9}$/.test(digitsOnly)) {
-      isIndianPhoneValid = true;
-    } else if (digitsOnly.length === 11 && digitsOnly.startsWith('0') && /^[6-9]/.test(digitsOnly.slice(1))) {
-      isIndianPhoneValid = true;
-    } else if (digitsOnly.length === 12 && digitsOnly.startsWith('91') && /^[6-9]/.test(digitsOnly.slice(2))) {
-      isIndianPhoneValid = true;
-    }
-
-    if (!phoneInput) {
-      showError('phone', 'Phone number is required.');
-      isValid = false;
-    } else if (!isIndianPhoneValid) {
-      showError('phone', 'Please enter a valid 10-digit Indian mobile number (starting with 6, 7, 8, or 9).');
-      isValid = false;
-    } else {
-      clearError('phone');
-    }
-
-    return isValid;
-  }
-
-  // Handle Form Submission
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    if (!validateClient()) {
-      return;
-    }
-
-    // Hide any previous alert
-    if (alertError) alertError.classList.add('hidden');
-
-    // Extract values
-    const payload = {
-      fullName: (document.getElementById('field-fullName') as HTMLInputElement)?.value.trim(),
-      email: (document.getElementById('field-email') as HTMLInputElement)?.value.trim(),
-      phone: (document.getElementById('field-phone') as HTMLInputElement)?.value.trim(),
-      company: (document.getElementById('field-company') as HTMLInputElement)?.value.trim() || undefined,
-      role: (document.getElementById('field-role') as HTMLSelectElement)?.value,
-      projectType: (document.getElementById('field-projectType') as HTMLSelectElement)?.value,
-      timeline: (document.getElementById('field-timeline') as HTMLSelectElement)?.value,
-      requirements: (document.getElementById('field-requirements') as HTMLTextAreaElement)?.value.trim() || undefined,
-      website_url_hp: (document.getElementById('website_url_hp') as HTMLInputElement)?.value || '',
-    };
-
-    // Submitting state
-    if (submitBtn) {
-      submitBtn.disabled = true;
-    }
-    if (submitText) submitText.textContent = 'Submitting Application...';
-    if (submitSpinner) submitSpinner.classList.remove('hidden');
-
-    try {
-      const response = await fetch('/api/early-access', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      // Always save a local client backup so no submission is ever lost
-      try {
-        const localVault = JSON.parse(localStorage.getItem('saasforge_lead_vault') || '[]');
-        localVault.unshift({
-          ...payload,
-          submittedAt: new Date().toISOString(),
-          leadId: result.leadId || `lead_${Date.now()}`
-        });
-        localStorage.setItem('saasforge_lead_vault', JSON.stringify(localVault.slice(0, 100)));
-      } catch {}
-
-      // Treat successful server response or static host acknowledgement (200 OK) as success
-      if (response.ok && (result.success || Object.keys(result).length === 0)) {
-        // Success state
-        if (formWrapper) formWrapper.classList.add('hidden');
-        if (formSuccess) formSuccess.classList.remove('hidden');
-        if (successLeadId) {
-          successLeadId.textContent = result.leadId || result.submissionId || `CONFIRMED-${Date.now().toString(36).toUpperCase()}`;
-        }
-        (window as any).trackEvent?.('early_access_submitted', {
-          role: payload.role,
-          timeline: payload.timeline,
-        });
-      } else if (response.status === 422 && result.fieldErrors) {
-        // Validation errors returned from server
-        Object.entries(result.fieldErrors).forEach(([field, msg]) => {
-          showError(field, String(msg));
-        });
-        if (alertError && alertErrorMessage) {
-          alertErrorMessage.textContent = result.error || 'Please correct the highlighted fields above.';
-          alertError.classList.remove('hidden');
-        }
-      } else {
-        // General server error / rate limit error
-        if (alertError && alertErrorMessage) {
-          alertErrorMessage.textContent = result.error || 'Unable to submit your application right now. Please try again.';
-          alertError.classList.remove('hidden');
-        }
-      }
-    } catch (networkErr) {
-      if (alertError && alertErrorMessage) {
-        alertErrorMessage.textContent = 'A network error occurred. Please check your internet connection and try again.';
-        alertError.classList.remove('hidden');
-      }
-    } finally {
-      if (submitBtn) submitBtn.disabled = false;
-      if (submitText) submitText.textContent = 'Request Early Access';
-      if (submitSpinner) submitSpinner.classList.add('hidden');
-    }
-  });
+    (window as any).trackEvent?.('preview_form_submitted');
+  };
 </script>
