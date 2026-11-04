@@ -1,16 +1,15 @@
 services:
   - type: web
     name: saasforge-landing
-    runtime: static
+    runtime: node
     buildCommand: pnpm build
-    staticPublishPath: ./dist
-    headers:
-      - path: /*
-        name: X-Frame-Options
-        value: SAMEORIGIN
+    startCommand: node ./dist/server/entry.mjs
     envVars:
-      - key: PUBLIC_TALLY_FORM_URL
-        value: https://tally.so/r/laBxAB
-      - key: PUBLIC_TALLY_EMBED_URL
-        value: https://tally.so/embed/laBxAB
-
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
+      - key: GOOGLE_SHEETS_WEBHOOK_URL
+        sync: false

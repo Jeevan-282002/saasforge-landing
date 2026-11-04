@@ -16,7 +16,7 @@ This repository contains the standalone, production-ready developer marketing we
 * **Language:** TypeScript (Strict checking enabled)
 * **Styling:** Tailwind CSS (Custom developer dark theme inspired by Linear, Vercel, Supabase, and Stripe)
 * **Icons:** Lucide Icons & handcrafted SVG architectural schemas
-* **Enquiry Management:** [Tally Forms](https://tally.so) embed / modal integration with local development fallback
+* **Enquiry Management:** Native Early Access Lead Engine with server-side validation, rate limiting, and local/webhook lead storage
 * **SEO & Meta:** OpenGraph SVG banner, JSON-LD schema, `@astrojs/sitemap`, `robots.txt`
 
 ---
@@ -48,7 +48,7 @@ saasforge-landing/
 │   │   ├── FAQ.astro           # 10 comprehensive developer FAQs
 │   │   ├── FinalCTA.astro      # High-impact closing call to action
 │   │   ├── Footer.astro        # Brand footer, site map, copyright & legal notices
-│   │   └── EnquiryModal.astro  # Tally embed / interactive lead preview modal
+│   │   └── EnquiryModal.astro  # Custom production-quality Early Access application modal
 │   ├── pages/
 │   │   ├── index.astro         # Primary landing page
 │   │   └── privacy.astro       # Privacy policy & data handling disclosure
@@ -102,65 +102,42 @@ saasforge-landing/
 
 ---
 
-## 4. Customer Enquiry & Lead Management (Tally Forms)
+## 4. Customer Enquiry & Early Access Lead Management
 
-This landing page collects developer enquiries without requiring a separate backend database. It uses **Tally Forms** ([https://tally.so](https://tally.so)).
+This landing page features a fully custom, production-quality Early Access application modal with a dedicated secure backend endpoint at `/api/early-access`.
 
-### A. Environment Configuration
+### A. Architecture & Lead Storage
 
-Add the public URL of your Tally form to your environment:
+Incoming applications are validated on the server, sanitized against XSS, protected by a bot honeypot, rate-limited per IP, and saved directly to disk:
 
-```env
-PUBLIC_TALLY_FORM_URL=https://tally.so/r/laBxAB
-```
-
-> **Development Mode Notice:** If `PUBLIC_TALLY_FORM_URL` is empty, the website will display a helpful development preview banner and render an interactive demonstration form. It will not fake successful submissions or make unauthorized network calls.
+* **File Storage:** `data/leads.jsonl` (append-only log) and `data/leads.json` (structured array).
+* **Optional Webhook Sync:** If `GOOGLE_SHEETS_WEBHOOK_URL` or `LEAD_WEBHOOK_URL` is set, submissions are automatically and asynchronously forwarded to your Google Apps Script Web App, Zapier, Make, or CRM without blocking user responses or exposing secrets.
 
 ### B. Form Fields Implemented
 
 1. **Full Name** *(Required)*
-2. **Email Address** *(Required)*
-3. **Enquiry Type** *(Required)*:
-   * Request Early Access
-   * Commercial Licensing Enquiry
-   * General Question
-   * Partnership / Collaboration
-4. **I am a** *(Required)*:
-   * Individual Developer
-   * Freelancer
-   * Startup Founder
+2. **Work Email** *(Required)*
+3. **Phone Number** *(Required - Validated for 10-digit Indian mobile numbers starting with 6, 7, 8, or 9)*
+4. **Company / Startup Name** *(Optional)*
+5. **Your Role** *(Required)*:
+   * Founder
+   * Django Developer
    * Software Agency
-   * Engineering Team
+   * Freelancer
    * Other
-5. **Organization Name** *(Optional)*
-6. **Capabilities of Interest**:
-   * Multi-tenancy
-   * 4-Tier RBAC
-   * Quota Engine
-   * Audit Logging
-   * Celery & Outbox
-   * Complete Core
-7. **What are you planning to build?**
-8. **Additional Message or Specific Questions**
-
-### C. Setting Up Tally Notifications & Lead Storage
-
-Follow these steps to manage incoming customer enquiries in Tally:
-
-1. **Create Form:** Go to [Tally.so](https://tally.so), create a free account, and create a form matching the fields listed above.
-2. **Enable Email Notifications:**
-   * In your Tally form editor, navigate to **Settings** → **Email notifications**.
-   * Toggle **"Notify me when a response is submitted"**.
-   * Enter your preferred email address to receive real-time notifications for every enquiry.
-3. **Connect Google Sheets:**
-   * In Tally, navigate to **Integrations** → **Google Sheets**.
-   * Authenticate your Google account and select an existing spreadsheet or create a new one (e.g. `Django SaaS Foundation Leads`).
-   * Every new submission will automatically populate a new row with timestamps, email, organization, and answers.
-4. **Export Data:**
-   * At any time, you can export submissions from your Tally dashboard as a CSV or Excel file for CRM import.
-5. **Copy Form URL:**
-   * Copy the public form URL (e.g., `https://tally.so/r/wXXXXX`).
-   * Add it to your `.env` file or Cloudflare Pages environment variables as `PUBLIC_TALLY_FORM_URL`.
+6. **What are you planning to build?** *(Required)*:
+   * SaaS Application
+   * Multi-Tenant Application
+   * Client Project
+   * Internal Business Application
+   * Other
+7. **Expected Project Timeline** *(Required)*:
+   * Immediately
+   * Within 1 Month
+   * Within 3 Months
+   * Just Exploring
+8. **Additional Requirements** *(Optional)*:
+   * Multi-tenancy specifications, expected tenant scale, or questions.
 
 ---
 
@@ -180,7 +157,7 @@ Cloudflare Pages provides global CDN distribution, automatic SSL, and continuous
    * **Build command:** `pnpm build` (or `npm run build`)
    * **Build output directory:** `dist`
 5. Environment Variables:
-   * Add `PUBLIC_TALLY_FORM_URL` = `https://tally.so/r/YOUR_FORM_ID`
+   * (Optional) `GOOGLE_SHEETS_WEBHOOK_URL` = your Google Apps Script or CRM webhook endpoint
    * Add `NODE_VERSION` = `20` or `22`
 6. Click **Save and Deploy**.
 7. Connect your custom domain under **Custom domains** tab (e.g. `djangosaasfoundation.com` or `saasforge.dev`).
@@ -203,8 +180,8 @@ wrangler pages deploy dist --project-name=saasforge-landing
    * **Branch:** `main`
    * **Build Command:** `pnpm build` (or `npm install && npm run build`)
    * **Publish Directory:** `dist`
-4. Under **Environment Variables**, add:
-   * `PUBLIC_TALLY_FORM_URL` = your Tally link
+4. Under **Environment Variables** (Optional):
+   * `GOOGLE_SHEETS_WEBHOOK_URL` = your Google Sheets webhook endpoint
 5. Click **Create Static Site**.
 
 ---

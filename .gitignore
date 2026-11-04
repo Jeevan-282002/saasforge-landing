@@ -8,6 +8,9 @@ node_modules/
 .env.production
 .env.local
 
+# Data Storage (Customer Leads)
+data/
+
 # OS files
 .DS_Store
 Thumbs.db
