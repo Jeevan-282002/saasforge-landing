@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: saasforge-landing
+    runtime: static
+    buildCommand: pnpm build
+    staticPublishPath: ./dist
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+    envVars:
+      - key: PUBLIC_TALLY_FORM_URL
+        sync: false
