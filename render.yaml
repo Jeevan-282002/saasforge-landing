@@ -11,4 +11,6 @@ services:
     envVars:
       - key: PUBLIC_TALLY_FORM_URL
         value: https://tally.so/r/laBxAB
+      - key: PUBLIC_TALLY_EMBED_URL
+        value: https://tally.so/embed/laBxAB
 

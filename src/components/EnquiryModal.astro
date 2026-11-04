@@ -1,7 +1,18 @@
 ---
 import { siteConfig } from '../config/siteConfig';
 
-const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || siteConfig.tally.defaultFormUrl || "https://tally.so/r/laBxAB";
+const rawEmbedUrl = import.meta.env.PUBLIC_TALLY_EMBED_URL || "";
+const rawFormUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || "";
+
+// Direct public URL for opening form in a new window/tab
+const directUrl = rawFormUrl || siteConfig.tally.directUrl || "https://tally.so/r/laBxAB";
+
+// Embed URL for responsive inline iframe embed
+const embedUrl = rawEmbedUrl ||
+  siteConfig.tally.embedUrl ||
+  (directUrl.includes('/r/') ? directUrl.replace('/r/', '/embed/') : "https://tally.so/embed/laBxAB");
+
+const isFormConfigured = Boolean(embedUrl || directUrl);
 ---
 
 <!-- Global Enquiry Modal Dialog -->
@@ -43,13 +54,17 @@ const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || siteConfig.tally.defau
     </div>
 
     <!-- Tally Form Integration or Development Preview -->
-    {tallyUrl ? (
+    {isFormConfigured ? (
       <div class="space-y-4">
-        <div class="w-full min-h-[480px] rounded-xl overflow-hidden bg-surface-card border border-surface-border">
+        <div class="relative w-full min-h-[480px] rounded-xl overflow-hidden bg-surface-card border border-surface-border">
+          <!-- Ambient loader indicator displayed while iframe initializes -->
+          <div id="tally-loading" class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-400 pointer-events-none">
+            <div class="w-8 h-8 rounded-full border-2 border-emerald-500/20 border-t-emerald-400 animate-spin"></div>
+            <span class="text-xs">Loading enquiry form...</span>
+          </div>
           <iframe
             id="tally-iframe"
-            data-tally-src={`${tallyUrl}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
-            src={`${tallyUrl}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+            data-tally-src={`${embedUrl}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
             loading="lazy"
             width="100%"
             height="500"
@@ -57,13 +72,14 @@ const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || siteConfig.tally.defau
             marginheight="0"
             marginwidth="0"
             title="Django SaaS Foundation Enquiry Form"
-            class="w-full"
+            class="w-full relative z-10"
+            onload="document.getElementById('tally-loading')?.classList.add('hidden')"
           ></iframe>
         </div>
         <div class="flex items-center justify-between text-xs text-slate-400 pt-2">
           <span>Having trouble loading?</span>
           <a
-            href={tallyUrl}
+            href={directUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="text-emerald-400 hover:text-emerald-300 font-medium underline inline-flex items-center gap-1"
@@ -263,6 +279,53 @@ const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || siteConfig.tally.defau
   const closeBtn = document.getElementById('modal-close-btn');
   const previewFeedback = document.getElementById('preview-feedback');
 
+  function initTallyEmbed() {
+    const iframe = document.getElementById('tally-iframe') as HTMLIFrameElement | null;
+    if (!iframe) return;
+
+    // If iframe is already initialized and active, do not reset it
+    if (iframe.dataset.tallyEmbedWidgetInitialized === '1' && iframe.src) {
+      return;
+    }
+
+    const triggerTally = () => {
+      if (typeof (window as any).Tally !== 'undefined') {
+        (window as any).Tally.loadEmbeds();
+      } else if (!iframe.src && iframe.dataset.tallySrc) {
+        // Direct fallback: if Tally script is blocked or unreachable
+        iframe.src = iframe.dataset.tallySrc;
+      }
+    };
+
+    const tallyScriptSrc = 'https://tally.so/widgets/embed.js';
+    const existingScript = document.querySelector(`script[src="${tallyScriptSrc}"]`);
+
+    if (typeof (window as any).Tally !== 'undefined') {
+      (window as any).Tally.loadEmbeds();
+    } else if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = tallyScriptSrc;
+      script.async = true;
+      script.onload = triggerTally;
+      script.onerror = triggerTally;
+      document.body.appendChild(script);
+    } else {
+      existingScript.addEventListener('load', triggerTally, { once: true });
+      existingScript.addEventListener('error', triggerTally, { once: true });
+    }
+
+    // Safety fallback: if after 400ms src is not set by IntersectionObserver, set it directly
+    setTimeout(() => {
+      if (!iframe.src && iframe.dataset.tallySrc) {
+        if (typeof (window as any).Tally !== 'undefined') {
+          (window as any).Tally.loadEmbeds();
+        } else {
+          iframe.src = iframe.dataset.tallySrc;
+        }
+      }
+    }, 400);
+  }
+
   function openModal(enquiryType?: string) {
     if (!modal) return;
     modal.classList.remove('hidden');
@@ -275,18 +338,8 @@ const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || siteConfig.tally.defau
       typeSelect.value = enquiryType;
     }
 
-    // Load Tally embed script dynamically if needed
-    if (!(window as any).Tally && !(document.querySelector('script[src="https://tally.so/widgets/embed.js"]'))) {
-      const script = document.createElement('script');
-      script.src = 'https://tally.so/widgets/embed.js';
-      script.async = true;
-      script.onload = () => {
-        (window as any).Tally?.loadEmbeds();
-      };
-      document.head.appendChild(script);
-    } else if ((window as any).Tally) {
-      (window as any).Tally.loadEmbeds();
-    }
+    // Initialize Tally embed when modal opens
+    initTallyEmbed();
   }
 
   function closeModal() {
