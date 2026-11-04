@@ -126,7 +126,7 @@ export const siteConfig: SiteConfig = {
     },
   },
   tally: {
-    defaultFormUrl: (typeof process !== "undefined" && process.env?.PUBLIC_TALLY_FORM_URL) || (import.meta as any).env?.PUBLIC_TALLY_FORM_URL || "",
+    defaultFormUrl: (typeof process !== "undefined" && process.env?.PUBLIC_TALLY_FORM_URL) || (import.meta as any).env?.PUBLIC_TALLY_FORM_URL || "https://tally.so/r/laBxAB",
   },
   navigation: [
     { name: "Features", href: "#features" },

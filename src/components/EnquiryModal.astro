@@ -1,7 +1,7 @@
 ---
 import { siteConfig } from '../config/siteConfig';
 
-const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || "";
+const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || siteConfig.tally.defaultFormUrl || "https://tally.so/r/laBxAB";
 ---
 
 <!-- Global Enquiry Modal Dialog -->
@@ -49,6 +49,7 @@ const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || "";
           <iframe
             id="tally-iframe"
             data-tally-src={`${tallyUrl}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+            src={`${tallyUrl}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
             loading="lazy"
             width="100%"
             height="500"
@@ -279,7 +280,12 @@ const tallyUrl = import.meta.env.PUBLIC_TALLY_FORM_URL || "";
       const script = document.createElement('script');
       script.src = 'https://tally.so/widgets/embed.js';
       script.async = true;
+      script.onload = () => {
+        (window as any).Tally?.loadEmbeds();
+      };
       document.head.appendChild(script);
+    } else if ((window as any).Tally) {
+      (window as any).Tally.loadEmbeds();
     }
   }
 

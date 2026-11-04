@@ -111,7 +111,7 @@ This landing page collects developer enquiries without requiring a separate back
 Add the public URL of your Tally form to your environment:
 
 ```env
-PUBLIC_TALLY_FORM_URL=https://tally.so/r/YOUR_FORM_ID
+PUBLIC_TALLY_FORM_URL=https://tally.so/r/laBxAB
 ```
 
 > **Development Mode Notice:** If `PUBLIC_TALLY_FORM_URL` is empty, the website will display a helpful development preview banner and render an interactive demonstration form. It will not fake successful submissions or make unauthorized network calls.

@@ -10,4 +10,5 @@ services:
         value: SAMEORIGIN
     envVars:
       - key: PUBLIC_TALLY_FORM_URL
-        sync: false
+        value: https://tally.so/r/laBxAB
+
