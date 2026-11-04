@@ -18,26 +18,27 @@ const isFormConfigured = Boolean(embedUrl || directUrl);
 <!-- Global Enquiry Modal Dialog -->
 <div
   id="enquiry-modal"
-  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6 overflow-y-auto"
+  class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/80 backdrop-blur-md p-3 sm:p-6"
   role="dialog"
   aria-modal="true"
   aria-labelledby="modal-headline"
 >
-  <div class="relative w-full max-w-2xl bg-surface-base border border-surface-border rounded-2xl shadow-2xl p-6 sm:p-8 my-8 overflow-hidden">
-    <!-- Ambient top glow -->
-    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-32 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+  <div id="modal-backdrop-wrapper" class="min-h-full w-full flex items-center justify-center py-4 sm:py-8">
+    <div id="modal-content-card" class="relative w-full max-w-2xl bg-surface-base border border-surface-border rounded-2xl shadow-2xl p-5 sm:p-8 my-auto overflow-hidden text-left">
+      <!-- Ambient top glow -->
+      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-32 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
 
-    <!-- Close button -->
-    <button
-      id="modal-close-btn"
-      type="button"
-      class="absolute top-5 right-5 text-slate-400 hover:text-white bg-surface-raised hover:bg-surface-border p-2 rounded-lg transition-colors"
-      aria-label="Close modal"
-    >
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
+      <!-- Close button -->
+      <button
+        id="modal-close-btn"
+        type="button"
+        class="absolute top-5 right-5 text-slate-400 hover:text-white bg-surface-raised hover:bg-surface-border p-2 rounded-lg transition-colors z-20"
+        aria-label="Close modal"
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
     <!-- Modal Header -->
     <div class="mb-6">
@@ -269,6 +270,7 @@ const isFormConfigured = Boolean(embedUrl || directUrl);
       </div>
       <a href="/privacy" class="text-slate-400 hover:text-slate-300 underline">Privacy Policy</a>
     </div>
+    </div>
   </div>
 </div>
 
@@ -330,6 +332,7 @@ const isFormConfigured = Boolean(embedUrl || directUrl);
     if (!modal) return;
     modal.classList.remove('hidden');
     modal.classList.add('flex');
+    modal.scrollTop = 0;
     document.body.style.overflow = 'hidden';
 
     // If preview form exists, set default type
@@ -352,7 +355,8 @@ const isFormConfigured = Boolean(embedUrl || directUrl);
   closeBtn?.addEventListener('click', closeModal);
 
   modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
+    const card = document.getElementById('modal-content-card');
+    if (card && !card.contains(e.target as Node)) {
       closeModal();
     }
   });
