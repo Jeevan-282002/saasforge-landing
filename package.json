@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node -e \"const fs = require('fs'); if (fs.existsSync('dist/client')) fs.cpSync('dist/client', 'dist', {recursive: true});\"",
     "preview": "astro preview"
   },
   "keywords": [],

@@ -1,15 +1,10 @@
 services:
   - type: web
     name: saasforge-landing
-    runtime: node
+    runtime: static
     buildCommand: pnpm build
-    startCommand: node ./dist/server/entry.mjs
-    envVars:
-      - key: HOST
-        value: 0.0.0.0
-      - key: PORT
-        value: 10000
-      - key: NODE_ENV
-        value: production
-      - key: GOOGLE_SHEETS_WEBHOOK_URL
-        sync: false
+    staticPublishPath: ./dist
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
